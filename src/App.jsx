@@ -3,35 +3,52 @@ import NewProject from "./components/NewProject";
 import NoProjectSelected from "./components/NoProjectSelected";
 import SideBar from "./components/SideBar";
 
-function App() {
 
+function App() {
   const [projectsState, setProjectsState] = useState({
-    selectedProject: undefined, // doing nothing
-    projects: []
-  });  
+    selectedProjectId: undefined, // doing nothing
+    projects: [],
+  });
 
   const handleStartAddProject = () => {
-
-    setProjectsState(prevState => {
+    setProjectsState((prevState) => {
       return {
         ...prevState,
-        selectedProject: null, // adding project
-      }
-    })
-  }
+        selectedProjectId: null, // adding project
+      };
+    });
+  };
+
+  const handleAddProject = (projectData) => {
+    setProjectsState((prevState) => {
+      const newProject = {
+        ...projectData,
+        id: Math.random(),
+      };
+
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
+        projects: [...prevState.projects, newProject],
+      };
+    });
+  };
 
   let content;
 
-  if(projectsState.selectedProject === null) {
-    content = <NewProject />
-  } else if(projectsState.selectedProject === undefined) {
-    content = <NoProjectSelected onStartAdProject={handleStartAddProject} />
+  if (projectsState.selectedProjectId === null) {
+    content = <NewProject onAdd={handleAddProject} />;
+  } else if (projectsState.selectedProjectId === undefined) {
+    content = <NoProjectSelected onStartAdProject={handleStartAddProject} />;
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <SideBar onStartAdProject={handleStartAddProject} />
-      {content}      
+      <SideBar
+        onStartAdProject={handleStartAddProject}
+        projects={projectsState.projects}
+      />
+      {content}
     </main>
   );
 }
