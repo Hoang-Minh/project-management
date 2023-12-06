@@ -1,6 +1,7 @@
 import React from "react";
+import Task from "./Task";
 
-export const SelectedProject = ({ project, onDelete }) => {
+const SelectedProject = ({ project, onDelete }) => {
   const formattedDate = new Date(project.dueDate).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -26,7 +27,9 @@ export const SelectedProject = ({ project, onDelete }) => {
           {project.description}
         </p>
       </header>
-      TASKS
+      <Task />
     </div>
   );
 };
+
+export default SelectedProject;
